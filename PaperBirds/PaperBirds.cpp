@@ -50,12 +50,16 @@ int main()
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
 	skybox::Skybox skybox;
-	sphere::MySphere sphere(std::make_shared<shader::MyShader>(sphere::kDefaultVsPath, sphere::kDefaultFsPath));
-	sphere::MySphere sphere2(std::make_shared<shader::MyShader>(sphere::kDefaultVsPath, sphere::kDefaultFsPath));
 	boids::MyBoids boids(std::make_shared<shader::MyShader>(boids::kDefaultVsPath, boids::kDefaultFsPath));
+
+	std::vector<sphere::MySphere> sphereSets;
+	sphereSets.emplace_back(std::make_shared<shader::MyShader>(sphere::kDefaultVsPath, sphere::kDefaultFsPath));
+	sphereSets.emplace_back(std::make_shared<shader::MyShader>(sphere::kDefaultVsPath, sphere::kDefaultFsPath));
 
 	int countFrame = 0;
 	float frame = 0;
+	std::shared_ptr<collisionParams> obj;
+	glm::mat4 model;
 	// render loop
 	// -----------
 	while (!glfwWindowShouldClose(window))
@@ -81,18 +85,22 @@ int main()
 			glm::perspective(glm::radians(camera::kZoom), static_cast<float>(constvalue::kScreenWidth)
 				/ static_cast<float>(constvalue::kScreenHeight), 0.1f, 1000.0f);
 
-		glDisable(GL_CULL_FACE);
-		boids.render(deltaTime, projection, view);
+
 
 		glEnable(GL_CULL_FACE);
 		glCullFace(GL_FRONT);
-		glm::mat4 model = glm::mat4(1.0f);
-		model = glm::translate(model, glm::vec3(0.0f, 25.0f, 750.0f));
-		model = glm::scale(model, glm::vec3(0.5));
-		sphere.render(projection, view, model);
 
-		model = glm::mat4(1.0f);
-		sphere2.render(projection, view, model);
+		//obj = std::make_shared<collisionParams>(constvalue::kTypeSphere, glm::vec3(0.0f, 25.0f, 750.0f), 0.5f);
+		//obj->modelTransform(model);
+		//sphereSets[0].render(projection, view, model);
+		//boids.pushBackObstacles(std::move(obj));
+
+		obj = std::make_shared<collisionParams>(constvalue::kTypeSphere, glm::vec3(0.0f), 2.0f);
+		obj->modelTransform(model);
+		sphereSets[1].render(projection, view, model);
+		boids.pushBackObstacles(std::move(obj));
+
+		boids.render(deltaTime, projection, view);
 
 		glCullFace(GL_BACK);
 		skybox.render(projection, view);

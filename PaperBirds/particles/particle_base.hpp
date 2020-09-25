@@ -29,8 +29,7 @@ namespace particle{
     public:
         Particle() = default;
         virtual ~Particle() = default;
-        void render(float deltaTime, glm::mat4& projection,
-                    glm::mat4 &view)
+        void render(float deltaTime, glm::mat4& projection, glm::mat4 &view)
         {
 			updateParticles(deltaTime);
             renderParticles(projection, view);
@@ -40,7 +39,7 @@ namespace particle{
         virtual void updateParticles(float deltaTime) = 0;
         virtual void renderParticles(glm::mat4 &projection, glm::mat4 &view) = 0;
 		int mNumParticles;
-        std::vector<particleType> particles;
+        std::vector<particleType> mParticles;
     };
 }
 

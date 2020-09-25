@@ -6,6 +6,28 @@
 #define TEST_BASE_HPP
 #include "../utils/libs.hpp"
 #include "../utils/shader.hpp"
+
+struct collisionParams {
+	collisionParams() = default;
+	collisionParams(int inModelType, glm::vec3 inPos, float inRadius = 1, glm::vec3 inShape = glm::vec3(0.0f)) 
+	:modelType(inModelType), position(inPos), radius(inRadius), shape(inShape){}
+	void modelTransform(glm::mat4 &model) {
+		model = glm::mat4(1.0);
+		if (modelType == constvalue::kTypeSphere) {
+			model = glm::translate(model, position);
+			model = glm::scale(model, glm::vec3(radius));
+		}
+		if (modelType == constvalue::kTypeCube) {
+			model = glm::translate(model, position);
+			model = glm::scale(model, shape);
+		}
+	}
+	glm::vec3 shape;
+	glm::vec3 position;
+	float radius;
+	int modelType;
+};
+
 class base{
 public:
     base()=default;

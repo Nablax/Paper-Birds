@@ -14,6 +14,7 @@
 
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtx/rotate_vector.hpp>
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 
@@ -22,11 +23,12 @@ namespace constvalue{
     const glm::vec3 kFront(0.0f, 0.0f, -1.0f);
     const glm::vec3 kWorldUp(0.0f, 1.0f, 0.0f);
     const unsigned int kScreenWidth = 1920;
-    const unsigned int kScreenHeight = 1080;
+    const unsigned int kScreenHeight = 900;
 	const glm::vec3 kLightPosition(0.0f, 25.0f, 750.0f);
 	const glm::vec3 kLightColor(250.0f / 255, 244.0f / 255, 218.0f / 255);
 	const bool kFrontFace = 1, kBackFace = 0;
 	const float kTwoPiDegree = 360;
+	const float kTypeSphere = 0, kTypeCube = 1, kTypeQuad = 2;
 }
 
 namespace randomgenerator {
