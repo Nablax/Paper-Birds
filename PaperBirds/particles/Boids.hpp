@@ -38,7 +38,7 @@ namespace boids {
 	const float kCohesionFactor = 0.5;
 	const float kAlignmentFactor = 0.5;
 	const float kSeperationFactor = 2.5;
-	const float kToCenterFactor = 8;
+	const float kToCenterFactor = 4;
 
 	void genBoids() {
 		if (VAO != 0)
@@ -253,14 +253,9 @@ namespace boids {
 			glActiveTexture(GL_TEXTURE0);
 			glBindTexture(GL_TEXTURE_2D, mTexture);
 			glBindVertexArray(mVAO);
-			glEnable(GL_CULL_FACE);
-			glCullFace(GL_FRONT);
-			mShader->setBool("renderFace", constvalue::kBackFace);
-			glDrawElementsInstanced(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0, mNumParticles);
-			glCullFace(GL_BACK);
-			mShader->setBool("renderFace", constvalue::kFrontFace);
-			glDrawElementsInstanced(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0, mNumParticles);
 			glDisable(GL_CULL_FACE);
+			glDrawElementsInstanced(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0, mNumParticles);
+			glEnable(GL_CULL_FACE);
 			glBindVertexArray(0);
 		}
 	};

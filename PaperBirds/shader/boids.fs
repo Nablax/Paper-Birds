@@ -25,12 +25,10 @@ void main()
 	vec3 norm = normalize(normal);
     vec3 lightDir = normalize(lightPos - FragPos);
 	float diff = dot(norm, lightDir);
-	if(renderFace == backFace){
-		diff = max(-diff, 0.0);
-	}
-	if(renderFace == frontFace){
+	if(gl_FrontFacing)
 		diff = max(diff, 0.0);
-	}
+	else
+		diff = max(-diff, 0.0);
     vec3 diffuse = diff * texColor.rgb;  
     vec3 res = (ambient + diffuse) * lightColor;
 
